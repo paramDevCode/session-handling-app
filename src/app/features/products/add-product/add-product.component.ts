@@ -57,13 +57,17 @@ export class AddProductComponent {
   onSubmit() {
     if (this.productForm.valid) {
       const newProduct: Product = this.productForm.value;
-
+  
       this.productService.addProduct(newProduct).subscribe((addedProduct) => {
         console.log('Product added:', addedProduct);
-        this.router.navigate(['/products']);  
+  
+        // update the behavior subject
+        this.productService.getProducts().subscribe(); 
+        this.router.navigate(['/products']);
       });
     }
   }
+  
 
   onImageChange(event: Event) {
     const input = event.target as HTMLInputElement;

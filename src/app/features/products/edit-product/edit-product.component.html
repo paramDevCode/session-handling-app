@@ -9,22 +9,19 @@ class="p-button-text p-button-sm mb-3"
 <p-card header="Edit Product" class="mb-4">
 
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="p-fluid">
-    <!-- Title -->
-    <div class="p-field mb-3">
+     <div class="p-field mb-3">
       <label for="title">Title</label>
       <input id="title" type="text" pInputText formControlName="title" />
       <small *ngIf="f['title'].touched && f['title'].invalid" class="p-error">Title is required.</small>
     </div>
   
-    <!-- Price -->
-    <div class="p-field mb-3">
+     <div class="p-field mb-3">
       <label for="price">Price</label>
       <input id="price" type="number" pInputText formControlName="price" />
       <small *ngIf="f['price'].touched && f['price'].invalid" class="p-error">Valid price is required.</small>
     </div>
   
-    <!-- Category -->
-    <div class="p-field mb-3">
+     <div class="p-field mb-3">
       <label for="category">Category</label>
       <p-dropdown
         inputId="category"
@@ -35,15 +32,13 @@ class="p-button-text p-button-sm mb-3"
       <small *ngIf="f['category'].touched && f['category'].invalid" class="p-error">Category is required.</small>
     </div>
   
-    <!-- Description -->
-    <div class="p-field mb-3">
+     <div class="p-field mb-3">
       <label for="description">Description</label>
       <textarea id="description" pInputTextarea formControlName="description" rows="3"></textarea>
       <small *ngIf="f['description'].touched && f['description'].invalid" class="p-error">Description is required.</small>
     </div>
   
-    <!-- Image -->
-    <div class="p-field mb-3">
+     <div class="p-field mb-3">
       <label for="image">Image</label>
       <input id="image" type="file" (change)="onImageChange($event)" pInputText />
       <small *ngIf="f['image'].touched && f['image'].invalid" class="p-error">Image is required.</small>
@@ -53,21 +48,16 @@ class="p-button-text p-button-sm mb-3"
       <img [src]="imageUrl" style="width: 100px; border: 1px solid #ccc;" />
     </div>
   
-    <!-- Buttons -->
-    <div class="flex gap-2">
-        <!-- Update button -->
-        <button
+     <div class="flex gap-2">
+         <button
           pButton
           type="submit" 
           label="Update"
           class="p-button-success p-button-sm w-fit"
           [disabled]="productForm.invalid"
         ></button>
-    
-     
-    
-        <!-- Cancel button -->
-        <button
+      
+         <button
           pButton
           type="button"
           label="Cancel"

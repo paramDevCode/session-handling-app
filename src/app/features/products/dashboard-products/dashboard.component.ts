@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
 import { Router } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product.model';
@@ -21,38 +20,41 @@ import { ButtonModule } from 'primeng/button';
     ProgressSpinnerModule,
     HeaderComponent,
     SearchComponent,
-    ButtonModule,ConfirmDialogModule 
+    ButtonModule,
+    ConfirmDialogModule
   ],
-  providers:[ConfirmationService],
+  providers: [ConfirmationService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  searchTerm: string = '';
+  searchTerm = '';
   allProducts: Product[] = [];
   products: Product[] = [];
   loading = true;
 
   constructor(
     private productService: ProductService,
-    public router: Router, private confirmationService: ConfirmationService 
+    public router: Router,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
-    this.getProduct();
-  }
+    //load products and update behavior subject
+    this.loading = true;
+    this.productService.getProducts().subscribe();
 
-  getProduct(): void {
-    this.productService.getProducts().subscribe({
-      next: (data) => {
+    // subscribe to list changes
+    this.productService.products$.subscribe({
+      next: data => {
         this.allProducts = data;
         this.products = data;
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error fetching products', err);
+      error: err => {
+        console.error('Error loading products', err);
         this.loading = false;
-      },
+      }
     });
   }
 
@@ -60,11 +62,10 @@ export class DashboardComponent implements OnInit {
     const normalize = (str: string) =>
       str.toLowerCase().replace(/['"]/g, '');
 
-    const normalizedTerm = normalize(term);
-
-    this.products = this.allProducts.filter(product =>
-      normalize(product.title).includes(normalizedTerm) ||
-      normalize(product.category).includes(normalizedTerm)
+    const normalized = normalize(term);
+    this.products = this.allProducts.filter(p =>
+      normalize(p.title).includes(normalized) ||
+      normalize(p.category).includes(normalized)
     );
   }
 
@@ -75,20 +76,16 @@ export class DashboardComponent implements OnInit {
   goToEditProduct(product: Product): void {
     this.router.navigate(['/products/edit', product.id]);
   }
+
   confirmDelete(id: number): void {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this product?',
-      accept: () => {
-        this.deleteProduct(id);
-      }
+      accept: () => this.deleteProduct(id)
     });
   }
-  
-  
 
   deleteProduct(id: number): void {
-    this.productService.deleteProduct(id).subscribe(() => {
-      this.getProduct();  
-    });
+    // behaviorSubject update subscribers
+    this.productService.deleteProduct(id).subscribe();
   }
 }

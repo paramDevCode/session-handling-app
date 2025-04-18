@@ -81,16 +81,18 @@ export class EditProductComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
   onSubmit() {
     if (this.productForm.valid) {
       const updatedProduct: Product = this.productForm.value;
+      
       this.productService.updateProduct(this.productId, updatedProduct).subscribe(() => {
+        // update the behavior subject
+        this.productService.getProducts().subscribe(); 
         this.router.navigate(['/products']);
       });
     }
   }
-
+  
    
 
   onCancel() {
