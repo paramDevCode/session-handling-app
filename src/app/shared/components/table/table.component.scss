@@ -1,0 +1,50 @@
+.table-container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+ table {
+  width: 100%;
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+
+ thead {
+  background: transparent;
+}
+
+thead th {
+  background: transparent;
+  font-weight: bold;
+  color: #ffffff;  
+}
+
+ tbody tr {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  color: #ffffff;  
+}
+
+ tbody tr:hover {
+  background: #ffffff;  
+  color: #000000;  
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+ td, th {
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  text-align: center;
+}
+
+ tbody tr + tr {
+  margin-top: 1rem;
+}
